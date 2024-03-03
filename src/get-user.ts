@@ -3,8 +3,17 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient({ log: ["info", "query"] });
 
 async function main() {
-  const user = await prisma.user.findMany({});
-  console.log(user);
+  const user = await prisma.user.findMany({
+    where: {
+      email: {
+        endsWith: "gmail.com",
+      },
+    },
+    include: {
+      posts: true,
+    },
+  });
+  console.log(JSON.stringify(user));
 }
 
 main()
